@@ -1,25 +1,44 @@
-import   express  from 'express';
-import { isAdmin, requireSignIn } from './../middlewares/authMiddleware.js';
-import { categoryControlller, createCategoryController, deleteCategoryCOntroller, singleCategoryController, updateCategoryController } from '../controllers/categoryController.js';
+import express from "express";
+import { isAdmin, requireSignIn } from "./../middlewares/authMiddleware.js";
+import {
+  categoryControlller,
+  createCategoryController,
+  deleteCategoryCOntroller,
+  singleCategoryController,
+  updateCategoryController,
+} from "./../controllers/categoryController.js";
 
+const router = express.Router();
 
-const router = express.Router()
+//routes
+// create category
+router.post(
+  "/create-category",
+  requireSignIn,
+  isAdmin,
+  createCategoryController
+);
 
-//route
+//update category
+router.put(
+  "/update-category/:id",
+  requireSignIn,
+  isAdmin,
+  updateCategoryController
+);
 
-//create-category
-router.post('/create-category',requireSignIn,isAdmin,createCategoryController)
+//getALl category
+router.get("/get-category", categoryControlller);
 
-//update-category
-router.put("/update-category/:id",requireSignIn,isAdmin,updateCategoryController)
+//single category
+router.get("/single-category/:slug", singleCategoryController);
 
-//getAll category
-router.get("/get-category",categoryControlller);
-
-//single-category
-router.get("/single-category/:id",singleCategoryController);
-
-//delete-category
-router.delete("/delete-category/:id",requireSignIn,isAdmin,deleteCategoryCOntroller);
+//delete category
+router.delete(
+  "/delete-category/:id",
+  requireSignIn,
+  isAdmin,
+  deleteCategoryCOntroller
+);
 
 export default router;

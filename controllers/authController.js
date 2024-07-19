@@ -1,14 +1,15 @@
 import userModel from "../models/userModel.js";
+import orderModel from "../models/orderModel.js";
+
 import { comparePassword, hashPassword } from "./../helpers/authHelper.js";
 import JWT from "jsonwebtoken";
-import orderModel from "../models/orderModel.js";
 
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address,answer } = req.body;
+    const { name, email, password, phone, address, answer } = req.body;
     //validations
     if (!name) {
-      return res.send({ message: "Name is Required" });
+      return res.send({ error: "Name is Required" });
     }
     if (!email) {
       return res.send({ message: "Email is Required" });
@@ -55,7 +56,7 @@ export const registerController = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error in Registeration",
+      message: "Errro in Registeration",
       error,
     });
   }
@@ -100,7 +101,7 @@ export const loginController = async (req, res) => {
         email: user.email,
         phone: user.phone,
         address: user.address,
-        role:user.role,
+        role: user.role,
       },
       token,
     });
@@ -120,7 +121,7 @@ export const forgotPasswordController = async (req, res) => {
   try {
     const { email, answer, newPassword } = req.body;
     if (!email) {
-      res.status(400).send({ message: "Email is required" });
+      res.status(400).send({ message: "Emai is required" });
     }
     if (!answer) {
       res.status(400).send({ message: "answer is required" });
@@ -198,7 +199,6 @@ export const updateProfileController = async (req, res) => {
   }
 };
 
-
 //orders
 export const getOrdersController = async (req, res) => {
   try {
@@ -216,26 +216,24 @@ export const getOrdersController = async (req, res) => {
     });
   }
 };
-//all-orders
+//orders
 export const getAllOrdersController = async (req, res) => {
   try {
     const orders = await orderModel
       .find({})
       .populate("products", "-photo")
       .populate("buyer", "name")
-      .sort({ createdAt: -1 }); // Corrected sorting format
-
+      .sort({ createdAt: "-1" });
     res.json(orders);
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error while getting orders",
-      error: error.message,
+      message: "Error WHile Geting Orders",
+      error,
     });
   }
 };
-
 
 //order status
 export const orderStatusController = async (req, res) => {

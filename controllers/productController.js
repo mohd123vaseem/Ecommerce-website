@@ -1,10 +1,11 @@
 import productModel from "../models/productModel.js";
-import categoryModel from "../models/categoryModel.js"
+import categoryModel from "../models/categoryModel.js";
+import orderModel from "../models/orderModel.js";
+
 import fs from "fs";
 import slugify from "slugify";
 import braintree from "braintree";
-import orderModel from "../models/orderModel.js";
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -16,7 +17,6 @@ var gateway = new braintree.BraintreeGateway({
   privateKey: process.env.BRAINTREE_PRIVATE_KEY,
 });
 
-//Create-product
 export const createProductController = async (req, res) => {
   try {
     const { name, description, price, category, quantity, shipping } =
@@ -73,19 +73,18 @@ export const getProductController = async (req, res) => {
     res.status(200).send({
       success: true,
       counTotal: products.length,
-      message: "All Products ",
+      message: "ALlProducts ",
       products,
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error in getting products",
+      message: "Erorr in getting products",
       error: error.message,
     });
   }
 };
- 
 // get single product
 export const getSingleProductController = async (req, res) => {
   try {
@@ -144,7 +143,7 @@ export const deleteProductController = async (req, res) => {
   }
 };
 
-//upate products     
+//upate producta
 export const updateProductController = async (req, res) => {
   try {
     const { name, description, price, category, quantity, shipping } =
@@ -188,7 +187,7 @@ export const updateProductController = async (req, res) => {
     res.status(500).send({
       success: false,
       error,
-      message: "Error in Update product",
+      message: "Error in Updte product",
     });
   }
 };
@@ -215,7 +214,6 @@ export const productFiltersController = async (req, res) => {
   }
 };
 
-
 // product count
 export const productCountController = async (req, res) => {
   try {
@@ -234,11 +232,10 @@ export const productCountController = async (req, res) => {
   }
 };
 
-
 // product list base on page
 export const productListController = async (req, res) => {
   try {
-    const perPage = 2;
+    const perPage = 6;
     const page = req.params.page ? req.params.page : 1;
     const products = await productModel
       .find({})
@@ -259,7 +256,6 @@ export const productListController = async (req, res) => {
     });
   }
 };
-
 
 // search product
 export const searchProductController = async (req, res) => {
@@ -329,7 +325,6 @@ export const productCategoryController = async (req, res) => {
     });
   }
 };
-
 
 //payment gateway api
 //token
