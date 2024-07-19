@@ -38,9 +38,9 @@ app.use("*",function(req,res){
 })
 
 //rest api
-// app.get("/", (req, res) => {
-//     res.send("<h1>Welcome to 123ecommerce app</h1>");
-//   });
+app.get("/", (req, res) => {
+    res.send("<h1>Welcome to 123ecommerce app</h1>");
+  });
   
   //PORT
   const PORT = process.env.PORT || 8080;
